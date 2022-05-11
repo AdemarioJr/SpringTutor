@@ -32,7 +32,7 @@ public class ClienteController {
     @GetMapping(value = "/status", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public String status() {
-        return "Resource activate :-) ";
+        return "Resource activate cliente :-) ";
     }
 
     @GetMapping(value = "/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
