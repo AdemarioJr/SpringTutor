@@ -2,6 +2,8 @@ package com.springtutor.demobasic.controller;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,6 +47,25 @@ public class ProdutoController {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
             return new ResponseEntity<>(items, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<Produto> create(@RequestBody Produto produto) {
+        try {
+            List<Produto> items = new ArrayList<Produto>();
+
+            if (produto.getCpf().isEmpty() && produto.getName().isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            } else {
+                produtoService.salvar(produto);
+
+                produtoService.listarProdutos().forEach(items::add);
+                return new ResponseEntity<>(items.get(items.size() - 1), HttpStatus.OK);
+            }
+
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
