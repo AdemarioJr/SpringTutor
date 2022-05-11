@@ -57,7 +57,9 @@ public class ProdutoController {
         try {
             List<Produto> items = new ArrayList<Produto>();
 
-            if (produto.getCpf().isEmpty() && produto.getName().isEmpty()) {
+            if (produto.getName_provider().isEmpty()
+                    && produto.getName().isEmpty()
+                    || produto.getExpirationdate().equals(null)) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             } else {
                 produtoService.salvar(produto);
