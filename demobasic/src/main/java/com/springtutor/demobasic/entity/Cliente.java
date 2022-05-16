@@ -1,6 +1,7 @@
 package com.springtutor.demobasic.entity;
 
 import java.io.Serializable;
+import java.time.Instant;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,6 +23,8 @@ public class Cliente implements Serializable {
     private String email;
     @Column(name = "cpf", nullable = false)
     private String cpf;
+    @Column(name = "creation", nullable = false)
+    private Instant creationInstant = Instant.now();
 
     public Long getId() {
         return id;

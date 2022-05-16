@@ -3,7 +3,9 @@ package com.springtutor.demobasic.entity;
 import javax.persistence.Entity;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -30,13 +32,26 @@ public class Produto implements Serializable {
     public Produto() {
     }
 
-    public Produto(Long id, String name, String description, String name_provider, Date datecreation,
+    public <LocalDate> Produto(Long id, String name, String description, String name_provider, Date datecreation,
             Date expirationdate) {
+        LocalDateTime myDateObj = LocalDateTime.now();
+
+        // 2022-05-13T17:22:43.593894
+        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+
+        // 13-05-2022 17:22:43
+        String formattedDate = myDateObj.format(myFormatObj);
+
+        Date current = new Date();
+        LocalDate local = (LocalDate) Instant.ofEpochMilli(current.getTime()).atZone(ZoneId.systemDefault())
+                .toLocalDate();
+
         this.id = id;
         this.name = name;
         this.description = description;
         this.name_provider = name_provider;
-        this.datecreation = datecreation;
+
+        this.datecreation = current.from(Instant.ofEpochMilli(current.getTime()));
         this.expirationdate = expirationdate;
     }
 
@@ -86,6 +101,12 @@ public class Produto implements Serializable {
 
     public void setExpirationdate(Date expirationdate) {
         this.expirationdate = expirationdate;
+    }
+
+    @Override
+    public String toString() {
+        return "Produto [datecreation=" + datecreation + ", description=" + description + ", expirationdate="
+                + expirationdate + ", id=" + id + ", name=" + name + ", name_provider=" + name_provider + "]";
     }
 
 }
